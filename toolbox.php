@@ -896,3 +896,35 @@ function qrcode($value)
     echo '<img src="helloweba.png">';
 }                                                                         //利用phpqrcode生成二维码
 
+function new_ergodic($directory)
+{
+    if(is_file($directory))
+    {
+        //文件夹的名称
+        echo 'DirName:     ' .__DIR__.PHP_EOL;
+        //文件的绝对路径
+        echo 'Path:         ' .realpath($directory). PHP_EOL.PHP_EOL;
+        exit;
+    }
+
+    $it = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($directory));
+
+    $it->rewind();
+
+    while($it->valid())
+    {
+
+        if (!$it->isDot())
+        {
+
+            //文件夹的名称
+            echo 'DirName:     ' . '/'.$it->getSubPath() .PHP_EOL;
+            //文件名称
+            echo 'FileName: ' . '/'.$it->getSubPathName() .PHP_EOL;
+            //文件的绝对路径
+            echo 'Path:         ' . $it->key() . PHP_EOL.PHP_EOL;
+        }
+
+        $it->next();
+    }
+}
