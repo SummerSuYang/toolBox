@@ -928,3 +928,26 @@ function new_ergodic($directory)
         $it->next();
     }
 }
+
+function str_split_utf8($str)
+{
+    $result = [];
+    //strlen返回的是字符串的"字节数"
+    for($i = 0; $i < strlen($str);){
+        $value = ord($str[$i]);
+        if($value > 127){
+            if($value >= 192 && $value <= 223) $split = 2;
+            elseif ($value >= 224 && $value <= 239) $split = 3;
+            elseif ($value >= 240 && $value <=247) $split = 4;
+        }
+        else $split = 1;
+
+        $char = '';
+        for($j = 0; $j < $split; $j++, $i++){
+            $char.=$str[$i];
+        }
+        $result[] = $char;
+    }
+
+    return $result;
+}
